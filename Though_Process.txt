@@ -1,0 +1,8 @@
+Though Process:
+- Read though given information.
+- Gather information regarding given Cell Tower Information (Contacted Expert in Cellular networks).
+- Research Graph implementations in C# as top candidate for the position (understand available methods and methods that I need to manually create).
+- Research QuickGraph as potential candidate.
+- Created base layout of a console applcaiton, along with other documentation.
+- Continued to research methods of completing given task, including which type of project is best and how to resolve frequency distrubution.
+- 
