@@ -39,6 +39,11 @@ namespace Tower_Frequencies.Classes
             this.Frequency = frequency;
         }
 
+        public override string ToString()
+        {
+            return $"Tower Name: {Tower_Name}\tEasting: {Easting}\tNorthing: {Northing}\tLongitude: {Longitude}\tLatitude: {Latitude}\tFrequency: {Frequency}";
+        }
+
 
     }
 }
