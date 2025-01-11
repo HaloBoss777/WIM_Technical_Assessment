@@ -1,4 +1,6 @@
 ﻿using System;
+using Tower_Frequencies.Classes;
+using System.IO;
 
 
 
@@ -19,6 +21,14 @@ namespace Tower_Frequencies
         
     class Program
     {
+
+
+        public List<CellTower> GetCellTowers()
+        {
+             
+
+
+        }
 
         static void Main(string[] args)
         {
