@@ -34,6 +34,22 @@
           }
         }
       },
+      "QuikGraph.Graphviz/2.5.0": {
+        "type": "package",
+        "dependencies": {
+          "QuikGraph": "2.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/QuikGraph.Graphviz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/QuikGraph.Graphviz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.Resources.Extensions/6.0.0": {
         "type": "package",
         "compile": {
@@ -96,6 +112,29 @@
         "quikgraph_logo.png"
       ]
     },
+    "QuikGraph.Graphviz/2.5.0": {
+      "sha512": "pCKpErtHGxUi72OT+2aIg1pdHdUqpqEM5J/i9rmVsEVDE4X0xb1HBPWdxv/FLZmbBjk0ZogZXZttUL3CnAPpNw==",
+      "type": "package",
+      "path": "quikgraph.graphviz/2.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "lib/net35/QuikGraph.Graphviz.dll",
+        "lib/net35/QuikGraph.Graphviz.xml",
+        "lib/net40/QuikGraph.Graphviz.dll",
+        "lib/net40/QuikGraph.Graphviz.xml",
+        "lib/net45/QuikGraph.Graphviz.dll",
+        "lib/net45/QuikGraph.Graphviz.xml",
+        "lib/netstandard1.3/QuikGraph.Graphviz.dll",
+        "lib/netstandard1.3/QuikGraph.Graphviz.xml",
+        "lib/netstandard2.0/QuikGraph.Graphviz.dll",
+        "lib/netstandard2.0/QuikGraph.Graphviz.xml",
+        "quikgraph.graphviz.2.5.0.nupkg.sha512",
+        "quikgraph.graphviz.nuspec",
+        "quikgraph_logo.png"
+      ]
+    },
     "System.Resources.Extensions/6.0.0": {
       "sha512": "pBnVzNQYd0OHqh0VLu/hi0zFOTtyF8QwtziQBmzX/ZtVOea4+JEVOGu29DHeSOA0a9SFrYjQorBrOLuKLhcMNQ==",
       "type": "package",
@@ -124,27 +163,28 @@
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
       "Ookii.Dialogs.WinForms >= 4.0.0",
-      "QuikGraph >= 2.5.0"
+      "QuikGraph >= 2.5.0",
+      "QuikGraph.Graphviz >= 2.5.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dewal\\.nuget\\packages\\": {},
+    "C:\\Users\\User\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\_WORK_\\WIM\\WIM_Technical_Assessment\\Tower_Frequencies\\Tower_Frequencies\\Tower_Frequencies.csproj",
+      "projectUniqueName": "C:\\Users\\User\\OneDrive\\Company Technical Assessments\\WIM\\Tower_Frequencies\\WIM_Technical_Assessment\\Tower_Frequencies\\Tower_Frequencies\\Tower_Frequencies.csproj",
       "projectName": "Tower_Frequencies",
-      "projectPath": "C:\\_WORK_\\WIM\\WIM_Technical_Assessment\\Tower_Frequencies\\Tower_Frequencies\\Tower_Frequencies.csproj",
-      "packagesPath": "C:\\Users\\dewal\\.nuget\\packages\\",
-      "outputPath": "C:\\_WORK_\\WIM\\WIM_Technical_Assessment\\Tower_Frequencies\\Tower_Frequencies\\obj\\",
+      "projectPath": "C:\\Users\\User\\OneDrive\\Company Technical Assessments\\WIM\\Tower_Frequencies\\WIM_Technical_Assessment\\Tower_Frequencies\\Tower_Frequencies\\Tower_Frequencies.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\OneDrive\\Company Technical Assessments\\WIM\\Tower_Frequencies\\WIM_Technical_Assessment\\Tower_Frequencies\\Tower_Frequencies\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\dewal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -169,7 +209,7 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "direct"
+        "auditMode": "all"
       },
       "SdkAnalysisLevel": "9.0.100"
     },
@@ -182,6 +222,10 @@
             "version": "[4.0.0, )"
           },
           "QuikGraph": {
+            "target": "Package",
+            "version": "[2.5.0, )"
+          },
+          "QuikGraph.Graphviz": {
             "target": "Package",
             "version": "[2.5.0, )"
           }
@@ -202,7 +246,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

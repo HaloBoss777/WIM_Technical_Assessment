@@ -12,15 +12,15 @@ namespace Tower_Frequencies.Classes
         // The identifier of the Tower
         public string Tower_Name { get; set; }
         // The easting coordinate (UTM coordinate system)
-        public double? Easting { get; set; }
+        public double Easting { get; set; }
         // The northing coordinate (UTM coordinate system)
-        public double? Northing { get; set; }
+        public double Northing { get; set; }
         // Geographic longitude
-        public double? Longitude { get; set; }
+        public double Longitude { get; set; }
         // Geographic latitude
-        public double? Latitude { get; set; }
+        public double Latitude { get; set; }
         // Frequency used by the tower
-        public double? Frequency { get; set; }
+        public double Frequency { get; set; }
 
         // Default Constructor
         public CellTower()
@@ -29,7 +29,7 @@ namespace Tower_Frequencies.Classes
         }
 
         // Parameterized Constructor
-        public CellTower(string tower_name, double easting, double northing, double longitude, double latitude, double frequency)
+        public CellTower(string tower_name = "Unknow", double easting = 0, double northing = 0, double longitude = 0, double latitude = 0, double frequency = 0)
         {
             this.Tower_Name = tower_name;
             this.Easting = easting;
