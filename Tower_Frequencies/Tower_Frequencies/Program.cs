@@ -5,8 +5,6 @@ using System.Windows.Forms;
 using Microsoft.Msagl;
 using Microsoft.Msagl.Drawing;
 using Microsoft.Msagl.GraphViewerGdi;
-using System.Security.Cryptography;
-using System.Windows.Markup;
 
 /*
  * Project By Dewald Oosthuizen for WIM Technologies
@@ -25,6 +23,8 @@ namespace Tower_Frequencies
         // Get all cell tower information
         public static List<CellTower> GetCellTowers(string sFilePath)
         {
+            // User feedback
+            Console.WriteLine("\n" + new string('-', 100));
 
             List<CellTower> lReturn = new List<CellTower>();
 
@@ -48,6 +48,9 @@ namespace Tower_Frequencies
 
                 //Array to keep seperated Tower info (5 default size)
                 string[] arrTower_Info = new string[5];
+
+                // User feedback
+                Console.WriteLine("\nLoading file contents............");
 
                 while (!sr.EndOfStream)
                 {
@@ -132,6 +135,9 @@ namespace Tower_Frequencies
         // Allow the User to chose frequency range for cell towers
         public static List<int> GetFrequecyBound()
         {
+            // Section getting frequencies
+            Console.WriteLine("\n" + new string('-', 100));
+
             // Inclusive bounds for the frequencies
             int frequency_lower = 0;
             int frequency_upper = 0;
@@ -228,6 +234,10 @@ namespace Tower_Frequencies
             // Distance between towers
             double dDistance = 0;
 
+            // User feedback
+            Console.WriteLine("\n" + new string('-', 100));
+            Console.WriteLine("\nCreating Graph.........");
+
             // Create an undirected graph that has vertices (cell towers) and edges (one double property for frequencies)
             Graph graph_Cell_Towers = new Graph("Cell_Tower_Network");
 
@@ -320,6 +330,9 @@ namespace Tower_Frequencies
             // Used frequency of a tower
             int iUsed_Frequency = 0;
 
+            //Used for Information display
+            bool bErrors = false;
+
             // For each CellTower node in the graph (in Alphabetical Order)
             foreach (var Tower in graph_Cell_Towers.Nodes.OrderBy(node => (node.UserData as CellTower).Tower_Name))
             {
@@ -357,8 +370,15 @@ namespace Tower_Frequencies
                 }
                 else
                 {
+                    if(bErrors == false)
+                    {
+                        bErrors = true;
+                        Console.WriteLine("\n" + new string('-', 100));
+                        Console.WriteLine("\nFrequency Assignment Warnings:\n");
+                    }
+
                     // If no frequencies are available indecate the tower that has the problem
-                    Console.WriteLine($"No available frequency for Tower: {Tower.UserData as CellTower}");
+                    Console.WriteLine($"No available frequency for {Tower.UserData as CellTower}");
                 }
 
 
@@ -391,6 +411,7 @@ namespace Tower_Frequencies
 
             while ( bContinue_Program )
             {
+                Console.WriteLine(new string('-', 100));
                 Console.WriteLine("\nPlease enter a number (1: read file and calculate tower frequencies, 2: exit program)");
 
                 if (int.TryParse(Console.ReadLine(), out iChoise)){
@@ -417,6 +438,9 @@ namespace Tower_Frequencies
                                 graph_Cell_Towers = CalFrequencies(graph_Cell_Towers, lFrequencies, 5);
 
                                 // List each tower and their new frequency
+                                Console.WriteLine("\n" + new string('-', 100));
+                                Console.WriteLine("\nTower information:");
+
                                 foreach (var tower in graph_Cell_Towers.Nodes.OrderBy(node => (node.UserData as CellTower).Tower_Name))
                                 {
                                     Console.WriteLine((tower.UserData as CellTower).ToString());
@@ -429,8 +453,10 @@ namespace Tower_Frequencies
                             break;
 
                         case 2:
-                            Console.WriteLine("Thank you, have a greate day!");
+                            Console.WriteLine("\n" + new string('-', 100));
+                            Console.WriteLine("\nThank you, have a greate day!");
                             bContinue_Program = false;
+                            Console.ReadKey();
                             break;
 
                         default:
