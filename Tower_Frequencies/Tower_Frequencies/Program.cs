@@ -2,19 +2,16 @@
 using Tower_Frequencies.Classes;
 using Ookii.Dialogs.WinForms;
 using System.Windows.Forms;
-using QuikGraph;
-using QuikGraph.Graphviz;
-using QuikGraph.Graphviz.Dot;
-
+using Microsoft.Msagl;
+using Microsoft.Msagl.Drawing;
+using Microsoft.Msagl.GraphViewerGdi;
+using System.Security.Cryptography;
+using System.Windows.Markup;
 
 /*
  * Project By Dewald Oosthuizen for WIM Technologies
  * 
  * Main Purpose of this project is to create a program that can effectively assign frequency signals to Cell Phone Towers to minimize potential interferince between towers.
- * 
- * Program: Console Application.
- * Cell Tower info: Read from chosen file.
- * Frequency Range: 
  * 
 */
 
@@ -157,7 +154,7 @@ namespace Tower_Frequencies
                     // Prompt for upper range
                     Console.WriteLine("\nPlease enter upper bound for possible frequencies (Inclusive): ");
 
-                    if (int.TryParse(Console.ReadLine(), out frequency_upper))
+                    if (int.TryParse(Console.ReadLine(), out frequency_upper) && frequency_upper > frequency_lower)
                     {
                         bValid_bound = true;
 
@@ -186,31 +183,59 @@ namespace Tower_Frequencies
             return lFrequencies;
         }
 
-        // Calculate Euclidean Distance between Towers (Small are using Easting and Northing)
-        public static double CalDistance( double dTowerOne_Easting, double dTowerOne_Northing, double dTowerTwo_Easting, double dTowerTwo_Northing)
+        // Calculate the great-circle distance distance between Towers (Large using longitude(Y) and latitude(X)) (Using Haversine Formula for considering Earth's curvature)
+        // Based on info from https://stackoverflow.com/questions/41621957/a-more-efficient-haversine-function and https://www.movable-type.co.uk/scripts/latlong.html
+        public static double CalDistance(double dTowerOne_longitude, double dTowerOne_latitude, double dTowerTwo_longitude, double dTowerTwo_latitude)
         {
-            // Final Euclidean Result in meters
+            // Final great-circle distance result in meters
             double dDistance = 0;
 
-            // Calculated the Euclidean distance using sqrt((E2 - E1)^2 + (N2 - N1)^2)
-            dDistance = Math.Sqrt(
-                (dTowerOne_Easting - dTowerTwo_Easting) * (dTowerOne_Easting - dTowerTwo_Easting) +
-                (dTowerOne_Northing - dTowerTwo_Northing) * (dTowerOne_Northing - dTowerTwo_Northing)
-            );
+            // Variables used to Compute Haversine Formula
+            double dHalf_Chord_Length_Squared = 0;
+            double dAngular_Distance = 0;
+
+            // Earths Radius
+            const double dEarth_Radius = 6378100; // Meters
+
+            // Convert given longitude and latitude degrees to radians (Standard unit of angular measurement --> degree * (pi / 180) )
+            dTowerOne_longitude = dTowerOne_longitude * (Math.PI / 180);
+            dTowerOne_latitude = dTowerOne_latitude * (Math.PI / 180);
+            dTowerTwo_longitude = dTowerTwo_longitude * (Math.PI / 180);
+            dTowerTwo_latitude = dTowerTwo_latitude * (Math.PI / 180);
+
+            //Sine of half the differences between longitude and latitudes --> Sin(ΔRadian / 2)
+            double shdLatitude = Math.Sin((dTowerTwo_latitude - dTowerOne_latitude) / 2); 
+            double shdLongitude = Math.Sin((dTowerTwo_longitude - dTowerOne_longitude) / 2);
+
+            // Calculated the half chord lenght squared --> sin²(Δlat / 2) + cos(lat1) * cos(lat2) * sin²(Δlon / 2)
+            dHalf_Chord_Length_Squared = shdLatitude * shdLatitude + Math.Cos(dTowerOne_latitude) * Math.Cos(dTowerTwo_latitude) * shdLongitude * shdLongitude;
+
+            // Calculate the angular distance between two points in radians --> 2 * atan2(√a, √(1-a))
+            dAngular_Distance = 2 * Math.Atan2(Math.Sqrt(dHalf_Chord_Length_Squared), Math.Sqrt(1 - dHalf_Chord_Length_Squared));
+
+            // Finaly Calculate the great-circle distance in meters --> earth_radius * angular distance
+            dDistance = dEarth_Radius * dAngular_Distance;
+
 
             // Return the distance between points in meters
             return dDistance;
         }
 
         // Generate Graph and assign frequencies
-        public static UndirectedGraph<CellTower, TaggedEdge<CellTower, double>> CreateGraph(List<CellTower> lCellTowers, List<int> lFrequencies)
+        public static Graph CreateGraph(List<CellTower> lCellTowers, List<int> lFrequencies)
         {
 
             // Distance between towers
             double dDistance = 0;
 
             // Create an undirected graph that has vertices (cell towers) and edges (one double property for frequencies)
-            UndirectedGraph<CellTower, TaggedEdge<CellTower, double>> graph_Cell_Towers = new UndirectedGraph<CellTower, TaggedEdge<CellTower, double>>();
+            Graph graph_Cell_Towers = new Graph("Cell_Tower_Network");
+
+            // Edge and Nodes used for Customisation
+            Node nNode = null;
+            Edge eEdge = null;
+            Microsoft.Msagl.Core.Layout.Node nGeoNode = null; // Used to assign a nodes position using using latitude and longitude
+            Microsoft.Msagl.Core.Geometry.Point pPointer = new Microsoft.Msagl.Core.Geometry.Point();
 
             // Edge case (Only one tower)
             if (lCellTowers.Count < 2)
@@ -218,66 +243,131 @@ namespace Tower_Frequencies
                 return graph_Cell_Towers;
             }
 
-            // Add all cell tower objects to a QuickGraph undirectedgraph as vertices
+            // Add all cell tower objects to a Msagl graph as vertices
             for (int i = 0; i < lCellTowers.Count; i++)
             {
-                graph_Cell_Towers.AddVertex(lCellTowers[i]);
+                nNode = graph_Cell_Towers.AddNode(lCellTowers[i].Tower_Name);
+                nNode.UserData = lCellTowers[i];
+                nNode.LabelText = lCellTowers[i].Tower_Name;
+                nNode.Attr.Shape = Shape.Circle;
+                nNode.Attr.FillColor = Color.LightCyan;
+                nNode.Attr.Color = Color.Black;
             }
 
-            // Add undirected tagged edges between all nodes, while avoiding duplicates
+            //Console.WriteLine("\nTower Distances:\n");
+
+            // Add undirected edges between all towers, while avoiding duplicates
             for (int iTowerOne = 0; iTowerOne < lCellTowers.Count; iTowerOne++)
             {
                 for (int iTowerTwo = iTowerOne + 1; iTowerTwo < lCellTowers.Count; iTowerTwo++) // Used to avoid duplicate edges (undirected graph, edges directional)
                 {
-                    // Calculate the Euclidean distance between the two towers
+                    // Calculate the great-circle distance between the two towers
                     dDistance = CalDistance(
-                        lCellTowers[iTowerOne].Easting,
-                        lCellTowers[iTowerOne].Northing,
-                        lCellTowers[iTowerTwo].Easting,
-                        lCellTowers[iTowerTwo].Northing
+                        lCellTowers[iTowerOne].Longitude,
+                        lCellTowers[iTowerOne].Latitude,
+                        lCellTowers[iTowerTwo].Longitude,
+                        lCellTowers[iTowerTwo].Latitude
                     );
 
                     // Create a weighted edge between the two towers with the distance between the two as an edge property
-                    graph_Cell_Towers.AddEdge(new TaggedEdge<CellTower, double>(lCellTowers[iTowerOne], lCellTowers[iTowerTwo], dDistance));
+                    eEdge = graph_Cell_Towers.AddEdge(lCellTowers[iTowerOne].Tower_Name, lCellTowers[iTowerTwo].Tower_Name);
+                    eEdge.LabelText = dDistance.ToString("F2") + " m";
+                    eEdge.Attr.Weight = (int) dDistance * 1000; // Convert to millimeter as weight cannot accept a double
+                    //Console.WriteLine($"Tower Distance: {lCellTowers[iTowerOne].Tower_Name} and {lCellTowers[iTowerTwo].Tower_Name} has a distance {dDistance}");
+
+
                 }
             }
 
             // Return the created Cell Tower network
+            Console.WriteLine("\nGraph Created!!\n");
             return graph_Cell_Towers;
 
         }
 
-        // Visualise the created graph using Graphiz (Redo)
-        public static void VisualiseGraph(UndirectedGraph<CellTower, TaggedEdge<CellTower, double>> graph_Cell_Towers, string sFilePath)
+        // Visualise the created graph using Msagl.Drawing
+        public static void VisualiseGraph(Graph graph_Cell_Towers)
         {
-            // Create 
-            var graphviz = new GraphvizAlgorithm<CellTower, TaggedEdge<CellTower, double>>(graph_Cell_Towers);
+            // Used to render graph
+            GViewer gViewer = new GViewer();
 
-            // Customize Graph appearance
-            graphviz.FormatVertex += (sender, args) =>
-            {
-                args.VertexFormat.Label = args.Vertex.Tower_Name;
-            };
+            // Assign the viewer a graph
+            gViewer.Graph = graph_Cell_Towers;
 
-            graphviz.FormatEdge += (sender, args) =>
-            {
-                args.EdgeFormat.Label = new GraphvizEdgeLabel() {
-                    Value = $" {args.Edge.Tag:F2} m"
-                };
-            };
+            // Create the form to host the GVierwer
+            Form fGraph_Render = new Form();
 
-            string dotFormat = graphviz.Generate();
+            // Ensure gViewer Control fills the form and graph visuals scales with the form
+            gViewer.Dock = DockStyle.Fill;
 
-            // Save the DOT file
-            File.WriteAllText(sFilePath, dotFormat);
+            // Adds Viewer control to form
+            fGraph_Render.Controls.Add(gViewer);
 
-            // Output the DOT content to the console (optional)
-            Console.WriteLine(dotFormat);
+            // Form customisation
+            fGraph_Render.Text = "Cell Tower Network"; // Name of form
+            fGraph_Render.WindowState = FormWindowState.Maximized; // Maximises the form for better viewing
 
-            // Inform the user
-            Console.WriteLine($"DOT file saved to {sFilePath}");
-
+            // Show the form
+            Application.Run(fGraph_Render);
+            
         }
+
+        // Calculate the frequencies of each tower
+        public static Graph CalFrequencies(Graph graph_Cell_Towers, List<int> lFrequencies, int iFrequency_Consideration)
+        {
+            // Used as a copy of lFrequencies to determine available frequencies for the target tower
+            List<int> lAvailable_Frequencies = new List<int>();
+            // Used frequency of a tower
+            int iUsed_Frequency = 0;
+
+            // For each CellTower node in the graph (in Alphabetical Order)
+            foreach (var Tower in graph_Cell_Towers.Nodes.OrderBy(node => (node.UserData as CellTower).Tower_Name))
+            {
+
+                // Retrive all edges of the given target tower
+                var All_Tower_Edges = graph_Cell_Towers.Edges.Where(edge => edge.SourceNode == Tower || edge.TargetNode == Tower);
+
+                // Sort all edges in desending order according to their distance from the target tower and take the closest n towers
+                All_Tower_Edges = All_Tower_Edges.OrderBy(edge => edge.Attr.Weight).Take(iFrequency_Consideration);
+
+                // Make a copy of all available frequencies
+                lAvailable_Frequencies = new List<int>(lFrequencies);
+
+                // Check all frequencies used by closest n towers to target tower
+                foreach ( var Edge in All_Tower_Edges )
+                {
+                    if(Tower == Edge.SourceNode)
+                    {
+                        iUsed_Frequency = ((Edge.TargetNode.UserData) as CellTower).Frequency;
+                        lAvailable_Frequencies.Remove(iUsed_Frequency);
+                    }
+                    else
+                    {
+                        iUsed_Frequency = ((Edge.SourceNode.UserData) as CellTower).Frequency;
+                        lAvailable_Frequencies.Remove(iUsed_Frequency);
+                    }
+                    
+                }
+
+                // If not all frequencies are used assign the first available frequency to the target tower
+                if(lAvailable_Frequencies.Count != 0)
+                {
+                    // Assign a tower the first available frequency
+                    (Tower.UserData as CellTower).Frequency = lAvailable_Frequencies.First();
+                }
+                else
+                {
+                    // If no frequencies are available indecate the tower that has the problem
+                    Console.WriteLine($"No available frequency for Tower: {Tower.UserData as CellTower}");
+                }
+
+
+            }
+
+            // Return the graph with each tower now owning a frequency
+            return graph_Cell_Towers;
+        }
+
 
         [STAThread] // Needed to Open File Dialog
         static void Main(string[] args)
@@ -296,7 +386,7 @@ namespace Tower_Frequencies
             List<CellTower> lCell_Towers = new List<CellTower>();
 
             // Graph of cell tower network
-            UndirectedGraph<CellTower, TaggedEdge<CellTower, double>> graph_Cell_Towers = null;
+            Graph graph_Cell_Towers = null;
 
 
             while ( bContinue_Program )
@@ -320,9 +410,20 @@ namespace Tower_Frequencies
                                 // Get list of Cell Tower infomration
                                 lCell_Towers = GetCellTowers(sFilePath);
 
+                                // Create the inital graph with and calculate distance between towers
                                 graph_Cell_Towers = CreateGraph(lCell_Towers, lFrequencies);
 
-                                VisualiseGraph(graph_Cell_Towers, @"C:\Users\User\OneDrive\Company Technical Assessments\WIM\Tower_Frequencies\WIM_Technical_Assessment\Tower_Frequencies\graph.dot");
+                                // Assigne each tower a frquency of the chosen range
+                                graph_Cell_Towers = CalFrequencies(graph_Cell_Towers, lFrequencies, 5);
+
+                                // List each tower and their new frequency
+                                foreach (var tower in graph_Cell_Towers.Nodes.OrderBy(node => (node.UserData as CellTower).Tower_Name))
+                                {
+                                    Console.WriteLine((tower.UserData as CellTower).ToString());
+                                }
+
+
+                                VisualiseGraph(graph_Cell_Towers);
                             }
 
                             break;

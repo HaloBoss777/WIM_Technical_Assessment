@@ -2,6 +2,54 @@
   "version": 3,
   "targets": {
     "net9.0-windows7.0": {
+      "Microsoft.Msagl/1.1.6": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Msagl.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Msagl.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Msagl.Drawing/1.1.6": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Msagl": "1.1.6"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Msagl.Drawing.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Msagl.Drawing.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Msagl.GraphViewerGDI/1.1.7": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Msagl.Drawing": "1.1.6"
+        },
+        "compile": {
+          "lib/net7.0-windows7.0/Microsoft.Msagl.GraphViewerGdi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0-windows7.0/Microsoft.Msagl.GraphViewerGdi.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
       "Ookii.Dialogs.WinForms/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -20,35 +68,6 @@
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WindowsForms"
         ]
-      },
-      "QuikGraph/2.5.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/QuikGraph.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/QuikGraph.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "QuikGraph.Graphviz/2.5.0": {
-        "type": "package",
-        "dependencies": {
-          "QuikGraph": "2.5.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/QuikGraph.Graphviz.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/QuikGraph.Graphviz.dll": {
-            "related": ".xml"
-          }
-        }
       },
       "System.Resources.Extensions/6.0.0": {
         "type": "package",
@@ -69,6 +88,49 @@
     }
   },
   "libraries": {
+    "Microsoft.Msagl/1.1.6": {
+      "sha512": "Fqxj+pmZEo/H2z/LEMFSmtt6GrSj2FKZfz15HhTQRhYRpdewFaC5mPIUxkzELJTac/hbUDb28QBjG/w0JbG2wg==",
+      "type": "package",
+      "path": "microsoft.msagl/1.1.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Msagl.dll",
+        "lib/netstandard2.0/Microsoft.Msagl.xml",
+        "microsoft.msagl.1.1.6.nupkg.sha512",
+        "microsoft.msagl.nuspec"
+      ]
+    },
+    "Microsoft.Msagl.Drawing/1.1.6": {
+      "sha512": "xKEOHGDEzf1ulz7GISBxnjsqSl5+YhMhZ1I/UU7GMUkFtrwuShVg+irAZiZeK9VQRePXWeFWVhBlxrc3XulXNQ==",
+      "type": "package",
+      "path": "microsoft.msagl.drawing/1.1.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Msagl.Drawing.dll",
+        "lib/netstandard2.0/Microsoft.Msagl.Drawing.xml",
+        "microsoft.msagl.drawing.1.1.6.nupkg.sha512",
+        "microsoft.msagl.drawing.nuspec"
+      ]
+    },
+    "Microsoft.Msagl.GraphViewerGDI/1.1.7": {
+      "sha512": "av6SIZxaNILJ2r0ALvRBppOPYNCkGr2OQTx6XhwpB4rwrHtvKpcP5Olj9Qj4Yq6ijthKkmmkhHkDk6MHfpqbtA==",
+      "type": "package",
+      "path": "microsoft.msagl.graphviewergdi/1.1.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net472/Microsoft.Msagl.GraphViewerGdi.dll",
+        "lib/net472/Microsoft.Msagl.GraphViewerGdi.xml",
+        "lib/net6.0-windows7.0/Microsoft.Msagl.GraphViewerGdi.dll",
+        "lib/net6.0-windows7.0/Microsoft.Msagl.GraphViewerGdi.xml",
+        "lib/net7.0-windows7.0/Microsoft.Msagl.GraphViewerGdi.dll",
+        "lib/net7.0-windows7.0/Microsoft.Msagl.GraphViewerGdi.xml",
+        "microsoft.msagl.graphviewergdi.1.1.7.nupkg.sha512",
+        "microsoft.msagl.graphviewergdi.nuspec"
+      ]
+    },
     "Ookii.Dialogs.WinForms/4.0.0": {
       "sha512": "iBWCO5C3vc8uxDzCrZs4dtCK/MQOFG4qrcJxBRO+hHQ39SqnNhMWE/kxhCLa/D5Pxud9t+2bkC6kIanPn57VGA==",
       "type": "package",
@@ -87,52 +149,6 @@
         "lib/netcoreapp3.1/Ookii.Dialogs.WinForms.pdb",
         "ookii.dialogs.winforms.4.0.0.nupkg.sha512",
         "ookii.dialogs.winforms.nuspec"
-      ]
-    },
-    "QuikGraph/2.5.0": {
-      "sha512": "sG+mrPpXwxlXknRK5VqWUGiOmDACa9X+3ftlkQIMgOZUqxVOQSe0+HIU9PTjwqazy0pqSf8MPDXYFGl0GYWcKw==",
-      "type": "package",
-      "path": "quikgraph/2.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE",
-        "lib/net35/QuikGraph.dll",
-        "lib/net35/QuikGraph.xml",
-        "lib/net40/QuikGraph.dll",
-        "lib/net40/QuikGraph.xml",
-        "lib/net45/QuikGraph.dll",
-        "lib/net45/QuikGraph.xml",
-        "lib/netstandard1.3/QuikGraph.dll",
-        "lib/netstandard1.3/QuikGraph.xml",
-        "lib/netstandard2.0/QuikGraph.dll",
-        "lib/netstandard2.0/QuikGraph.xml",
-        "quikgraph.2.5.0.nupkg.sha512",
-        "quikgraph.nuspec",
-        "quikgraph_logo.png"
-      ]
-    },
-    "QuikGraph.Graphviz/2.5.0": {
-      "sha512": "pCKpErtHGxUi72OT+2aIg1pdHdUqpqEM5J/i9rmVsEVDE4X0xb1HBPWdxv/FLZmbBjk0ZogZXZttUL3CnAPpNw==",
-      "type": "package",
-      "path": "quikgraph.graphviz/2.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE",
-        "lib/net35/QuikGraph.Graphviz.dll",
-        "lib/net35/QuikGraph.Graphviz.xml",
-        "lib/net40/QuikGraph.Graphviz.dll",
-        "lib/net40/QuikGraph.Graphviz.xml",
-        "lib/net45/QuikGraph.Graphviz.dll",
-        "lib/net45/QuikGraph.Graphviz.xml",
-        "lib/netstandard1.3/QuikGraph.Graphviz.dll",
-        "lib/netstandard1.3/QuikGraph.Graphviz.xml",
-        "lib/netstandard2.0/QuikGraph.Graphviz.dll",
-        "lib/netstandard2.0/QuikGraph.Graphviz.xml",
-        "quikgraph.graphviz.2.5.0.nupkg.sha512",
-        "quikgraph.graphviz.nuspec",
-        "quikgraph_logo.png"
       ]
     },
     "System.Resources.Extensions/6.0.0": {
@@ -162,9 +178,10 @@
   },
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
-      "Ookii.Dialogs.WinForms >= 4.0.0",
-      "QuikGraph >= 2.5.0",
-      "QuikGraph.Graphviz >= 2.5.0"
+      "Microsoft.Msagl >= 1.1.6",
+      "Microsoft.Msagl.Drawing >= 1.1.6",
+      "Microsoft.Msagl.GraphViewerGDI >= 1.1.7",
+      "Ookii.Dialogs.WinForms >= 4.0.0"
     ]
   },
   "packageFolders": {
@@ -217,17 +234,21 @@
       "net9.0-windows7.0": {
         "targetAlias": "net9.0-windows",
         "dependencies": {
+          "Microsoft.Msagl": {
+            "target": "Package",
+            "version": "[1.1.6, )"
+          },
+          "Microsoft.Msagl.Drawing": {
+            "target": "Package",
+            "version": "[1.1.6, )"
+          },
+          "Microsoft.Msagl.GraphViewerGDI": {
+            "target": "Package",
+            "version": "[1.1.7, )"
+          },
           "Ookii.Dialogs.WinForms": {
             "target": "Package",
             "version": "[4.0.0, )"
-          },
-          "QuikGraph": {
-            "target": "Package",
-            "version": "[2.5.0, )"
-          },
-          "QuikGraph.Graphviz": {
-            "target": "Package",
-            "version": "[2.5.0, )"
           }
         },
         "imports": [

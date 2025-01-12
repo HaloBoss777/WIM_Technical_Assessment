@@ -20,7 +20,7 @@ namespace Tower_Frequencies.Classes
         // Geographic latitude
         public double Latitude { get; set; }
         // Frequency used by the tower
-        public double Frequency { get; set; }
+        public int Frequency { get; set; }
 
         // Default Constructor
         public CellTower()
@@ -29,7 +29,7 @@ namespace Tower_Frequencies.Classes
         }
 
         // Parameterized Constructor
-        public CellTower(string tower_name = "Unknow", double easting = 0, double northing = 0, double longitude = 0, double latitude = 0, double frequency = 0)
+        public CellTower(string tower_name = "Unknow", double easting = 0, double northing = 0, double longitude = 0, double latitude = 0, int frequency = 0)
         {
             this.Tower_Name = tower_name;
             this.Easting = easting;
