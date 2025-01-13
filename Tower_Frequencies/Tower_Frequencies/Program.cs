@@ -4,9 +4,7 @@ using Ookii.Dialogs.WinForms;
 using System.Windows.Forms;
 using Microsoft.Msagl;
 using Microsoft.Msagl.Drawing;
-using Microsoft.Msagl.GraphViewerGdi;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+
 
 /*
  * Project By Dewald Oosthuizen for WIM Technologies
