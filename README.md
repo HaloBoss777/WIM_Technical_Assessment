@@ -52,6 +52,8 @@
                   <img src="Graph_Visual.JPG" alt="Cell Tower Network" style="max-width:100%; height:auto;">
                   <li>Detailed calculations and consistency checks are documented in the project's accompanying report. Below is an example of the distance matrix:</li>
                   <img src="Distance_Matrix.png" alt="Distance Matrix" style="max-width:100%; height:auto;">
+                  <li>Illustration of the frequency assignments, considering the closest 4 and 5 towers before assignment:</li>
+                  <img src="Frequency_Graphs.png" alt="Frequency Graph" style="max-width:100%; height:auto;">
               </ul>
         </section>
     </main>
