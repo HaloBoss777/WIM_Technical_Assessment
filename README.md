@@ -26,7 +26,7 @@
             <ol>
                 <li><strong>Input Data:</strong> Users provide cell tower data in a standardized format (ID; Easting; Northing; Longitude; Latitude) and specify frequency ranges.</li>
                 <li><strong>Graph Creation:</strong> A graph is constructed where towers are vertices, and distances between them are weighted edges.</li>
-                <li><strong>Frequency Assignment:</strong> The algorithm determines the optimal frequency for each tower based on proximity to other towers and available frequencies.</li>
+                <li><strong>Frequency Assignment:</strong> The algorithm determines the optimal frequency for each tower based on its proximity to other towers and the available frequencies. Afterwards, the frequency assignment for each tower is displayed.</li>
                 <li><strong>Visuals:</strong> After the frequency assignments and distance calculations, the full Cell Tower Network graph is illustrated along with a matrix containing distance information for each Cell Tower.</li>
             </ol>
         </section>
