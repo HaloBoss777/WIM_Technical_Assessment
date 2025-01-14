@@ -49,9 +49,9 @@
             <h2>Visuals</h2>
               <ul>
                   <li>Graph visualizations and frequency assignments are demonstrated in the application. Below is an example graph:</li>
-                  <img src="WIM_Technical_Assessment\Graph_Visual.JPG" alt="Cell Tower Network" style="max-width:100%; height:auto;">
+                  <img src="Graph_Visual.JPG" alt="Cell Tower Network" style="max-width:100%; height:auto;">
                   <li>Detailed calculations and consistency checks are documented in the project's accompanying report. Below is an example of the distance matrix:</li>
-                  <img src="WIM_Technical_Assessment\Distance_Matrix.png" alt="Distance Matrix" style="max-width:100%; height:auto;">
+                  <img src="Distance_Matrix.png" alt="Distance Matrix" style="max-width:100%; height:auto;">
               </ul>
         </section>
     </main>
