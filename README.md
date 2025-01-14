@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Optimal Cell Tower Frequency Assignment</title>
 </head>
 <body>
     <header>
@@ -25,7 +24,8 @@
             <ol>
                 <li><strong>Input Data:</strong> Users provide cell tower data in a standardized format (ID, Easting, Northing, Longitude, Latitude) and specify frequency ranges.</li>
                 <li><strong>Graph Creation:</strong> A graph is constructed where towers are vertices, and distances between them are weighted edges.</li>
-                <li><strong>Frequency Assignment:</strong> The algorithm determines the optimal frequency for each tower based on proximity and available frequencies.</li>
+                <li><strong>Frequency Assignment:</strong> The algorithm determines the optimal frequency for each tower based on proximity to other towers and available frequencies.</li>
+                <li><strong>Visuals:</strong> After the frequency assignments and distance calculations, the full Cell Tower Network graph is illustrated along with a matrix containing distance information for each Cell Tower.</li>
             </ol>
         </section>
         <section>
@@ -47,10 +47,12 @@
         </section>
         <section>
             <h2>Visuals</h2>
-            <ul>
-                <li>Graph visualizations and frequency assignments are demonstrated in the application.</li>
-                <li>Detailed calculations and consistency checks are documented in the project's accompanying report.</li>
-            </ul>
+              <ul>
+                  <li>Graph visualizations and frequency assignments are demonstrated in the application. Below is an example graph:</li>
+                  <img src="WIM_Technical_Assessment\Graph_Visual.JPG" alt="Cell Tower Network" style="max-width:100%; height:auto;">
+                  <li>Detailed calculations and consistency checks are documented in the project's accompanying report. Below is an example of the distance matrix:</li>
+                  <img src="WIM_Technical_Assessment\Distance_Matrix.png" alt="Distance Matrix" style="max-width:100%; height:auto;">
+              </ul>
         </section>
     </main>
 </body>
