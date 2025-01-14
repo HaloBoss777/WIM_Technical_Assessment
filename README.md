@@ -9,6 +9,8 @@
     <main>
         <section>
             <p>This project was developed as part of a technical assessment for WIM Technologies to evaluate a candidate's potential in software development. The task involved creating an application to optimally assign frequencies to a range of cell towers, aiming to minimize interference between them.</p>
+            <p>The following input was provided, along with a frequency range of one hundred and ten (N = 110) to one hundred and fifteen (N = 115):</p>
+            <img src="Original_Information.png" alt="Original Information" style="max-width:100%; height:auto;">
         </section>
         <section>
             <h2>Features</h2>
@@ -22,7 +24,7 @@
         <section>
             <h2>How It Works</h2>
             <ol>
-                <li><strong>Input Data:</strong> Users provide cell tower data in a standardized format (ID, Easting, Northing, Longitude, Latitude) and specify frequency ranges.</li>
+                <li><strong>Input Data:</strong> Users provide cell tower data in a standardized format (ID; Easting; Northing; Longitude; Latitude) and specify frequency ranges.</li>
                 <li><strong>Graph Creation:</strong> A graph is constructed where towers are vertices, and distances between them are weighted edges.</li>
                 <li><strong>Frequency Assignment:</strong> The algorithm determines the optimal frequency for each tower based on proximity to other towers and available frequencies.</li>
                 <li><strong>Visuals:</strong> After the frequency assignments and distance calculations, the full Cell Tower Network graph is illustrated along with a matrix containing distance information for each Cell Tower.</li>
