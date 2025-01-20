@@ -181,6 +181,8 @@ namespace Tower_Frequencies.Classes
             List<int> lAvailable_Frequencies = new List<int>();
             // Used frequency of a tower
             int iUsed_Frequency = 0;
+            // Used to Get furthers frequency from current tower
+            //Edge eFurthest = null;
 
             //Used for Information display
             bool bErrors = false;
@@ -194,6 +196,9 @@ namespace Tower_Frequencies.Classes
 
                 // Sort all edges in desending order according to their distance from the target tower and take the closest n towers
                 All_Tower_Edges = All_Tower_Edges.OrderBy(edge => edge.Attr.Weight).Take(iFrequency_Consideration);
+
+                // Get last connected edge
+                //eFurthest = All_Tower_Edges.Last();
 
                 // Make a copy of all available frequencies
                 lAvailable_Frequencies = new List<int>(lFrequencies);
@@ -231,6 +236,18 @@ namespace Tower_Frequencies.Classes
 
                     // If no frequencies are available indecate the tower that has the problem
                     Console.WriteLine($"No available frequency for {Tower.UserData as CellTower}");
+
+                    // Assign the furthers away frequency to tower
+
+                    //if(eFurthest.SourceNode == Tower)
+                    //{
+                    //    (Tower.UserData as CellTower).Frequency = (eFurthest.TargetNode.UserData as CellTower).Frequency;
+                    //}
+                    //else
+                    //{
+                    //    (Tower.UserData as CellTower).Frequency = (eFurthest.SourceNode.UserData as CellTower).Frequency;
+                    //}
+
                 }
 
 
